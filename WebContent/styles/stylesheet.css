@@ -1,0 +1,132 @@
+body, html {
+
+	text-size: 16px;
+	font-family: Verdana, Sans-serif;
+	color: #222;
+}
+
+h1, h2, h3 {
+
+	border-bottom: 1px dotted #ccc; 
+}
+
+form ul {
+
+	list-style: none;
+}
+
+label {
+	
+	font-size: 0.8em;
+}
+
+/* progress div for sumitted data */
+
+#progress {
+	
+	margin: 0;
+	padding: 0;
+	font-size: 0.8em;
+}
+
+#progress ul {
+	
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* countryOfCitizenship */
+
+.threeColumn {
+	
+	margin: 20px 0 0 0;
+	padding: 0;
+	width: 760px;
+	float: left;
+}
+
+.threeColumn ul {
+	
+	margin: 0 20px 40px 0;
+	padding: 0;
+	width: 240px;
+	float: left;
+	list-style: none;
+}
+
+.threeColumn ul:last-child {
+	
+	margin: 0;
+}
+
+.threeColumn ul li {
+	
+	margin: 0;
+	padding: 0;	
+	display: block;
+	float: left;
+	width: inherit;
+}
+
+.threeColumn ul li:hover {
+	
+	padding-left: 5px;
+	border-left: 5px solid blue;
+	background-color: aliceblue;
+}
+
+.threeColumn ul li.index:hover {
+	
+	padding-left: 0;
+	border-left: 0;
+	background-color: inherit;
+}
+
+.threeColumn ul li a {
+	
+	text-decoration: none;
+	color: inherit;
+}
+
+.radioButtonList {
+	
+	margin: 20px 0 0 0;
+	padding: 0;
+}
+
+.radioButtonList ul {
+	
+	margin: 0 20px 40px 0;
+	padding: 0;
+	width: 100%;
+	list-style: none;
+}
+
+.radioButtonList ul:last-child {
+	
+	margin: 0;
+}
+
+.radioButtonList ul li {
+	
+	margin: 0;
+	padding: 0;	
+	display: block;
+	float: left;
+	width: inherit;
+}
+
+
+/* MISCELLANEOUS */
+
+li.index {
+	
+	margin: 5px 0 5px 0;
+	border-bottom: 1px solid #ccc;
+}
+
+li.index:hover {
+	
+	
+}
