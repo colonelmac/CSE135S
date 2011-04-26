@@ -19,8 +19,8 @@
 	support sp = new support();
 	Exception sql = null;
 
-	String path = config.getServletContext().getRealPath("/data/states.txt");
-	Vector<String> countries = sp.getCountries(path);
+	String path = config.getServletContext().getRealPath("/data/universities.txt");
+	Vector<String> universities = sp.getUniversities(path);
 
 	Class.forName("org.postgresql.Driver");
 	
@@ -29,25 +29,60 @@
 	
 	Statement statement = connection.createStatement();
 	
-	for(String s : countries) 
-	{
-		try
+	ResultSet results = null; 
+	
+	for(Object v : universities) 
+	{	
+		Vector tuple = (Vector)v;
+		String location = tuple.get(0).toString();
+		Vector<String> localUniversities = (Vector<String>)tuple.get(1);
+		int id = 0;
+		
+		try 
 		{
+			results = statement.executeQuery("SELECT ID FROM locations WHERE name = '" + location + "'");
 			//statement.execute("INSERT INTO locations (name, isstate) VALUES ('" + s + "', '1')");
-			out.println("<li>" + s + " inserted successfully.</li>");
+			
+			results.next();
+			id = results.getInt(1);
+			out.println("<li>" + location + " has ID: " + id + ".</li>");
+			out.println("<ul>");
 		}
-		catch(Exception ex)
+		catch(SQLException ex)
 		{
-			sql = ex; 
-			out.println("<li>" + s + " inserted UNSUCCESSFULLY!</li>");
+			String jsError = "alert(" + ex.getMessage() + ");";	
 		}
+		
+		for(String s : localUniversities)
+		{
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO universities (locationid, name) VALUES (?, ?)");
+			
+			ps.setInt(1, id);
+			ps.setString(2, s);
+			
+			try 
+			{
+				ps.execute();
+				
+				out.println("<li>" + s + " successfully inserted. </li>");
+			}
+			catch(SQLException ex)
+			{
+				String jsError = "alert(" + ex.getMessage() + ");";	
+			}	
+		}
+		
+		out.println("</ul>");
+
+
 	}
 	
 	statement.close();
-	connection.close();
+	connection.close();	
+
 %>
 
-SQLException: <%= sql.getMessage() %>
+SQLException: <%= sql %>
 
 </ul>
 
