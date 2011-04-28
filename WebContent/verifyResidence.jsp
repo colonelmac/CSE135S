@@ -21,13 +21,8 @@
 		String zipcode = request.getParameter("zipcode");
 		String areacode = request.getParameter("areacode");
 		String phoneNumber = request.getParameter("phoneNumber");
-		String state = "", countrycode = "";
-		
-		if( request.getParameter("state") != null )
-		{
-			state = request.getParameter("state");
-			countrycode = request.getParameter("countrycode");
-		}
+		String state = request.getParameter("state");
+		String countrycode = request.getParameter("countrycode");
 	%>
 	
 	<h4>Hello <%= first + " " + last + "," %></h4>

@@ -13,12 +13,7 @@
 </head>
 <body>
 	<%		
-		support sp = new support();
-		
-		String realPath = "/data/disciplines.txt";
-		
-		String path = config.getServletContext().getRealPath(realPath);
-		Vector<String> majors = sp.getMajors(path);
+		Vector<String> majors = SQL.getMajors();
 	
 		String countryCode = "";
 		if(session.getAttribute("countrycode") != null) 
@@ -66,13 +61,7 @@
 		<%
 			for(Degree d : degrees) {
 				
-				int date = d.graduationDate.getYear() + 1900;
-				out.println("<li>" + d.title + " " + d.major);
-				if(d.specialization != null ) {
-					
-					out.println(" <em>with a specialization in</em> " + d.specialization + " ");
-				}
-				out.println(" <em>from</em> " + d.university + " <em>class of</em> " + date + "</li>");
+				out.println(d.toHTMLString());
 			}
 		%>
 	</ul>

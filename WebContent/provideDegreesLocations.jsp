@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" import="java.util.*, support.*" %>
+    pageEncoding="ISO-8859-1" import="java.util.*, support.*, CSE135S.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -20,21 +20,16 @@
 		session.setAttribute(name, request.getParameter(name));
 	}
 
-	support sp = new support();
-	
-	String realPath = "";
+	Vector<String> countries = null;
 	
 	if(Boolean.parseBoolean(session.getAttribute("domesticApplicant").toString()))
 	{
-		realPath = "/data/states.txt";
+		countries = SQL.getStates();
 	}
 	else
 	{
-		realPath = "/data/countries.txt";
+		countries = SQL.getCountries();
 	}
-	
-	String path = config.getServletContext().getRealPath(realPath);
-	Vector<String> countries = sp.getCountries(path);
 
 	countries.remove("United States");
 	countries.remove("United States Virgin Islands");

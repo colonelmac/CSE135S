@@ -36,7 +36,7 @@
 	%>
 	
 	
-	<form id="form1" name="form1" method="post" action="">
+	<form method="post" action="">
 		
 		<ul>
 			<li><input type="hidden" id="firstName" name="firstName" value="<%= first %>" /></li>
@@ -53,7 +53,8 @@
 				<input type="text" size="3" maxlength="3" id="areacode" name="areacode" />
 				<input type="text" size="7" maxlength="7" id="phoneNumber" name="phoneNumber" />
 			</li>
-			<li><br /><input type="button" id="button" value="Submit" /></li>
+			<li><br /><input type="button" id="submitButton" value="Submit" /></li>
+			<li id="feedback"></li>
 		</ul>
 	
 	</form>
@@ -62,10 +63,22 @@
 	
 		YUI().use('node', function(Y) {
 			
-			Y.one('#button').on('click', function(e) {
+			var elements = [ ];
+			
+			for(var i = 0; i < document.forms[0].elements.length; i++) {
+				
+				if(Y.one(document.forms[0].elements[i]).get('type') === 'text')
+				{
+					elements.push(document.forms[0].elements[i]); 
+				}
+			}
+			
+			Y.one('#submitButton').on('click', function(e) { 
+						
+				var isValid = false;
 				
 				var citizen = document.getElementById('citizenship').value;
-				var form = document.forms['form1'];
+				var form = document.forms[0];
 				
 				if( citizen === 'United States' ) {
 					
@@ -76,10 +89,31 @@
 					form.action = 'verifyResidence.jsp';
 				}
 				
-				form.submit();
+				for(var i = 0; i < elements.length; i++) {
+				
+					if( Y.one(elements[i]).get('value') === '' ) 
+					{  
+						if(Y.one('#feedback').getContent() === '')
+						{
+							var message = Y.Node.create('<strong><em>All fields are required.</strong></em>');
+							Y.one('#feedback').appendChild(message);
+						}
+						
+						isValid = false;
+					}
+					else
+					{
+						isValid = true;
+					}
+				}
+				
+				if(isValid)
+				{
+					document.forms[0].submit();
+				}
 			});
 		});
-	
+		
 	</script>
 </body>
 </html>

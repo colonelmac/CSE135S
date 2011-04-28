@@ -38,7 +38,7 @@
 	ArrayList<Degree> degrees = (ArrayList<Degree>)session.getAttribute("degrees");
 %>
 
-<form method="post" action="">
+<form method="post" action="submitApplication.jsp">
 <div>
 	<h4>Please Verify your Information Before Submitting your Application:</h4>
 	<ul>
@@ -62,7 +62,6 @@
 <input type="button" value="Cancel Application" />
 <input type="submit" value="Submit Application" />
 </form>
-
 
 </body>
 </html>

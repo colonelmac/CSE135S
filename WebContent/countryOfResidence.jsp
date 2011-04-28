@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <%@page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" import="support.*, java.util.*"%>
+    pageEncoding="ISO-8859-1" import="support.*, java.util.*, CSE135S.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,12 +29,8 @@
 	
 		String url = "address.jsp?firstName=" + first + "&lastName=" + last + "&middleInitial=" + middle +
 						"&citizenship=" + citizenship;
-		
-		support sp = new support(); 
-	
-		String path = config.getServletContext().getRealPath("/data/countries.txt");
-		
-		Vector<String> countries = sp.getCountries(path);
+				
+		Vector<String> countries = SQL.getCountries();
 		
 		int size = countries.size();	//grab the number of countries
 		int approx = size / 3; 			//divide up the countries
