@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
+<%@page import="CSE135S.SQL"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="java.util.*, support.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -13,32 +14,7 @@
 	<% 
 		session.setAttribute("universityLocation", request.getParameter("universityLocation"));
 	
-		support sp = new support();
-		
-		String realPath = "/data/universities.txt";
-		
-		String path = config.getServletContext().getRealPath(realPath);
-		Vector universities = sp.getUniversities(path);
-	
-		boolean found = false;
-	
-		for(Object v : universities) {
-			
-			Vector tuple = (Vector)v;
-			String location = tuple.get(0).toString();
-			
-			if(location.equals(session.getAttribute("universityLocation").toString()))
-			{
-				universities = (Vector)tuple.get(1); //set university to a valid list of universities
-				found = true;
-				break;
-			}
-		}
-		
-		if(!found)
-		{
-			universities.clear();
-		}
+		Vector<String> universities = SQL.getUniversities( (String)session.getAttribute("universityLocation") );
 		
 		int size = universities.size();	//grab the number of universities
 		int approx = size / 3; 			//divide up the universities
@@ -85,8 +61,9 @@
 	<form id="addUniversityForm" method="post" action="" style="display: none">
 		<ul>
 			<li>
+				<input type="hidden" name="targetTable" value="universities" />
 				<label for="addUniversity">University Name:</label><br />
-				<input type="text" id="addUniversity" name="universityName" />
+				<input type="text" id="addUniversity" name="value" />
 			</li>
 			<li><br /><input id="submitButton" type="button" value="Submit" /></li>
 			<li id="feedback"></li>
@@ -114,7 +91,7 @@
 			    		currentLetter = universities.get(iStart).toString().charAt(0);
 			    		out.println("<li class='index'><strong>" + currentLetter + "</strong></li>");
 			    	}
-			        out.println("<li><a href='provideDegreesDisciplines.jsp?universityName=" + universities.get(iStart) + "'>" + universities.get(iStart) + "</a></li>");
+			        out.println("<li><a href='provideDegreesDisciplines.jsp?value=" + universities.get(iStart) + "'>" + universities.get(iStart) + "</a></li>");
 			    }
 			}
 		%>
@@ -130,7 +107,7 @@
 			    		currentLetter = universities.get(jStart).toString().charAt(0);
 			    		out.println("<li class='index'><strong>" + currentLetter + "</strong></li>");
 			    	}
-			        out.println("<li><a href='provideDegreesDisciplines.jsp?universityName=" + universities.get(jStart) + "'>" + universities.get(jStart) + "</a></li>");
+			        out.println("<li><a href='provideDegreesDisciplines.jsp?value=" + universities.get(jStart) + "'>" + universities.get(jStart) + "</a></li>");
 			    }
 			}
 		%>
@@ -146,7 +123,7 @@
 			    		currentLetter = universities.get(kStart).toString().charAt(0);
 			    		out.println("<li class='index'><strong>" + currentLetter + "</strong></li>");
 			    	}
-			        out.println("<li><a href='provideDegreesDisciplines.jsp?universityName=" + universities.get(kStart) + "'>" + universities.get(kStart) + "</a></li>");
+			        out.println("<li><a href='provideDegreesDisciplines.jsp?value=" + universities.get(kStart) + "'>" + universities.get(kStart) + "</a></li>");
 			    }
 			}
 		%>
@@ -188,7 +165,7 @@
 							}
 					};
 					
-					Y.io('verifyUniversity.jsp', config);
+					Y.io('verifyData.jsp', config);
 					Y.on('io:success', function() { alert('successfully posted to verifyUniversity.jsp'); });
 					
 					var form = document.getElementById('addUniversityForm');

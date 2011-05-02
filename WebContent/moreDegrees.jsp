@@ -13,8 +13,6 @@
 </head>
 <body>
 	<%		
-		Vector<String> majors = SQL.getMajors();
-	
 		String countryCode = "";
 		if(session.getAttribute("countrycode") != null) 
 		{
@@ -43,7 +41,7 @@
 	}
 
 	ArrayList<Degree> degrees = (ArrayList<Degree>)session.getAttribute("degrees");
-	degrees.add( new Degree(request.getParameter("major"), Integer.parseInt(request.getParameter("graduationMonth")), 
+	degrees.add( new Degree(request.getParameter("value"), Integer.parseInt(request.getParameter("graduationMonth")), 
 			Integer.parseInt(request.getParameter("graduationYear")), request.getParameter("degreeTitle"), (String)session.getAttribute("universityName")));
 	
 	if( !request.getParameter("degreeTitle").equals("BS") && !request.getParameter("degreeTitle").equals("BA") ) {

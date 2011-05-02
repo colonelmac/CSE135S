@@ -5,7 +5,7 @@ import java.util.*;
 
 public class SQL {
 
-	public static boolean checkUniversity(String name)
+	public static boolean checkData(String tableName, String name)
 	{	
 		try
 		{
@@ -14,7 +14,7 @@ public class SQL {
 			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/CSE135S?" + 
 									"user=postgres&password=postgrespass");
 			
-			PreparedStatement statement = connection.prepareStatement("SELECT id FROM universities WHERE LOWER(name) = ?");
+			PreparedStatement statement = connection.prepareStatement("SELECT id FROM " + tableName + " WHERE LOWER(name) = ?");
 			
 			statement.setString(1, name.toLowerCase());
 			 
@@ -54,6 +54,34 @@ public class SQL {
 			
 			statement.setString(1, name);
 			statement.setInt(2, id);
+			 
+			return statement.execute();			
+		}
+		catch(SQLException ex)
+		{
+			//do something?
+		}
+		catch (ClassNotFoundException e)
+		{
+			//do something?	
+		}
+		
+		return false; 
+	}
+		
+	public static boolean insertMajor(String name)
+	{		
+		try
+		{
+			Class.forName("org.postgresql.Driver");
+			
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/CSE135S?" + 
+									"user=postgres&password=postgrespass");
+			
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO majors (name) VALUES (?)");
+			
+			
+			statement.setString(1, name);
 			 
 			return statement.execute();			
 		}
@@ -164,6 +192,72 @@ public class SQL {
 		}
 		
 		return majors;	
+	}
+	
+	public static Vector<String> getSpecializations()
+	{
+		Vector<String> specializations = new Vector<String>();
+		
+		try
+		{	
+			Class.forName("org.postgresql.Driver");
+			
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/CSE135S?" + 
+									"user=postgres&password=postgrespass");
+			
+			Statement statement = connection.createStatement();
+			
+			ResultSet results = statement.executeQuery("SELECT name FROM specialization");
+			
+			while(results.next())
+			{
+				specializations.add(results.getString("name"));
+			}
+		}
+		catch(SQLException ex)
+		{
+			//do something?	
+		}
+		catch (ClassNotFoundException e)
+		{
+			//do something?	
+		}
+		
+		return specializations;	
+	}
+	
+	public static Vector<String> getUniversities(String location)
+	{
+		Vector<String> universities = new Vector<String>();
+		
+		try
+		{	
+			Class.forName("org.postgresql.Driver");
+			
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/CSE135S?" + 
+									"user=postgres&password=postgrespass");
+			
+			Statement statement = connection.createStatement();
+			
+			ResultSet results = statement.executeQuery("SELECT name FROM universities WHERE locationid = " + 
+													   "(SELECT id FROM locations WHERE name = '" + location + "') " + 
+													   "ORDER BY name ASC");
+			
+			while(results.next())
+			{
+				universities.add(results.getString("name"));
+			}
+		}
+		catch(SQLException ex)
+		{
+			//do something?	
+		}
+		catch (ClassNotFoundException e)
+		{
+			//do something?	
+		}
+		
+		return universities;	
 	}
 	
 	public static int getID(String table, String name)

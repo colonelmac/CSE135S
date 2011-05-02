@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
+<%@page import="CSE135S.SQL"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" import="java.util.*, support.*"%>
+    pageEncoding="ISO-8859-1" import="java.util.*, support.*, CSE135S.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -11,18 +12,10 @@
 </head>
 <body>
 	<%
-		session.setAttribute("universityName", request.getParameter("universityName"));
+		session.setAttribute("universityName", request.getParameter("value"));
 		
-		support sp = new support();
-		
-		String realPath = "/data/disciplines.txt";
-		
-		String path = config.getServletContext().getRealPath(realPath);
-		Vector<String> majors = sp.getMajors(path);
-	
-		realPath = "/data/specializations.txt";
-		path = config.getServletContext().getRealPath(realPath);
-		Vector<String> specializations = sp.getMajors(path);
+		Vector<String> majors = SQL.getMajors();
+		Vector<String> specializations = SQL.getSpecializations();
 		
 		String countryCode = "";
 		if(session.getAttribute("countrycode") != null) 
@@ -45,7 +38,7 @@
 
 <h3>Add a discipline:</h3>
 
-<form method="post" action="moreDegrees.jsp">
+<form id="form1" method="post" action="">
 
 <div class="radioButtonList">
 	
@@ -54,9 +47,15 @@
 	<%
 		for(String m : majors) {
 			
-			out.println("<li><input type='radio' id='" + m + "' name='major' value='" + m + "' /><label for='" + m + "' >" + m + "</li>");
+			out.println("<li><input type='radio' id='" + m + "' name='value' value='" + m + "' /><label for='" + m + "' >" + m + "</li>");
 		}
 	%>
+		<li id="addLinkli">Can't find your major? Add it: </li>
+		<li>
+			<input type="hidden" name="targetTable" value="majors" />
+			<label for="addMajor">Major Name:</label><br />
+			<input type="text" id="addMajor" name="value" />
+		</li>
 	</ul>
 </div>
 
@@ -134,7 +133,7 @@
 </div>
 
 <div class="threeColumn">
-	<input type="submit" value="Submit" />
+	<input type="button" id="submitButton" value="Submit" />
 </div>
 
 </form>
@@ -163,6 +162,36 @@
 		
 		Y.on('change', verify, '#degreeTitle', '', document.getElementById('degreeTitle'));
 	});
+
+		YUI().use('io-form', 'node', function(Y) {
+			
+			
+			Y.one("#submitButton").on('click', function(e) {
+				
+				var node = Y.one("#addMajor");
+				
+				if(node.get('value') !== '')
+				{
+					var config = {
+							
+							method: 'POST',
+							form: {
+								id: 'form1',
+								useDisabled: false
+							}
+					};
+					
+					Y.io('verifyData.jsp', config);
+					Y.on('io:success', function() { alert('successfully posted to verifyUniversity.jsp'); }); 
+				}
+				
+				var form = document.getElementById('form1');
+				form.action = 'moreDegrees.jsp';
+				form.submit();
+			});
+		});
+	
+	</script>
 	
 </script>
 </body>
