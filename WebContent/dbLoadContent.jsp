@@ -70,6 +70,10 @@
 			{
 				String jsError = "alert(" + ex.getMessage() + ");";	
 			}	
+			finally
+			{
+				connection.close(); 
+			}
 		}
 		
 		out.println("</ul>");

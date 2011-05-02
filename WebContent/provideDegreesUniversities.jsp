@@ -82,13 +82,14 @@
 	
 	<h4>Universities in <%= session.getAttribute("universityLocation") %>:</h4>
 	
-	<form id="addUniversityForm" method="post" action="provideDegreesDisciplines.jsp" style="display: none">
+	<form id="addUniversityForm" method="post" action="" style="display: none">
 		<ul>
 			<li>
 				<label for="addUniversity">University Name:</label><br />
 				<input type="text" id="addUniversity" name="universityName" />
 			</li>
-			<li><br /><input type="submit" value="Submit" /></li>
+			<li><br /><input id="submitButton" type="button" value="Submit" /></li>
+			<li id="feedback"></li>
 		</ul>
 	</form>
 	
@@ -155,13 +156,45 @@
 	<script type="text/javascript" src="http://yui.yahooapis.com/combo?3.3.0/build/yui/yui-min.js"></script>
 	<script type="text/javascript">
 
-		YUI().use('node', function(Y) {
+		YUI().use('io-form', 'node', function(Y) {
 			
 			
 			Y.one("#addLink").on('click', function() {
 				
 				Y.one("#universites").setStyle('display', 'none');
 				Y.one("#addUniversityForm").setStyle('display', 'block');
+			});
+			
+			Y.one("#submitButton").on('click', function(e) {
+				
+				var node = Y.one("#addUniversity");
+				
+				if(node.get('value') === '')
+				{
+					if(Y.one('#feedback').getContent() === '')
+					{
+						var message = Y.Node.create('<strong><em>All fields are required.</strong></em>');
+						Y.one('#feedback').appendChild(message);
+					}
+				}
+				else
+				{
+					var config = {
+							
+							method: 'POST',
+							form: {
+								id: 'addUniversityForm',
+								useDisabled: false
+							}
+					};
+					
+					Y.io('verifyUniversity.jsp', config);
+					Y.on('io:success', function() { alert('successfully posted to verifyUniversity.jsp'); });
+					
+					var form = document.getElementById('addUniversityForm');
+					form.action = 'provideDegreesDisciplines.jsp';
+					form.submit(); 
+				}
 			});
 		});
 	

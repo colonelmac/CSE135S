@@ -24,36 +24,10 @@
 	{
 		
 		String s = sesh.nextElement();
-		
-		if( session.getAttribute(s) instanceof Collection )
-		{
-			ArrayList<Degree> degrees = (ArrayList<Degree>)session.getAttribute(s);
 			
-			out.println("<ul>");
-			
-			for(Degree d : degrees)
-			{
-				out.println(d.toHTMLString());
-			}
-			
-			out.println("</ul>");
-		}
-		else
-			out.println("<li>" + s +": " + session.getAttribute(s) + "</li>");
-			
-		//if( session.getAttribute(s) != null )
-			sessionAttributes.put(s, session.getAttribute(s));
+		sessionAttributes.put(s, session.getAttribute(s));
 	}
 
-%>
-</ul>
-
-<ul>
-<%
-	for(String s : sessionAttributes.keySet())
-	{
-		out.println("<li>" + s + ":    " + sessionAttributes.get(s) + "</li>");
-	}		
 %>
 </ul>
 
@@ -63,7 +37,7 @@
 		Class.forName("org.postgresql.Driver");
 	
 		Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/CSE135S?" + 
-									"user=postgres&password=derrick25");
+									"user=postgres&password=postgrespass");
 		
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO Applicants (firstname, lastname, middleinitial, countrycode, areacode, phonenumber, " +
 																  "citizenshipid, residenceid, state, address, city, zipcode, uuid) " + 

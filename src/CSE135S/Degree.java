@@ -26,7 +26,7 @@ public class Degree {
 		this.title = title;
 		this.major = major;
 		this.university = university;
-		this.graduationDate = new java.sql.Date(month, 1, year);
+		this.graduationDate = new java.sql.Date(year-1900, month, 1);
 	}
 	 
 	public int getMajorID()
