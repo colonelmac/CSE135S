@@ -47,7 +47,7 @@
 		
 			for(Degree d : degrees) {
 				
-				int date = d.graduationDate.getYear() + 1900;
+				int date = d.graduationDate.getYear();
 				out.println("<li>" + d.title + " " + d.major);
 				if(d.specialization != null ) {
 					

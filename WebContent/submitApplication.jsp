@@ -112,12 +112,21 @@
 			statement.setInt(1, results.getInt(1));
 			statement.setString(2, d.title);
 			statement.setInt(3, d.getMajorID());
-			statement.setInt(4, d.getSpecializationID());
+			
+			int spec = d.getSpecializationID();
+			if( spec == 0)
+				statement.setNull(4, Types.INTEGER);
+			else
+				statement.setInt(4, spec);
+			
 			statement.setInt(5, d.getUniversityID());
 			statement.setDate(6, d.graduationDate);
 			statement.setInt(7, d.gpa);
 			
 			statement.execute();
+			
+			SQL.incrementApplicantCount("specializations", d.specialization);
+			SQL.incrementApplicantCount("majors", d.major);
 		}
 	}
 	catch(ClassNotFoundException ex) { exception = ex; } 

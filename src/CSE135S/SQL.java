@@ -6,7 +6,7 @@ import java.util.*;
 public class SQL {
 
 	
-	public static Vector<String> getCountries() throws SQLException
+	public static Vector<String> getCountries()
 	{
 		
 		Vector<String> countries = new Vector<String>();
@@ -39,7 +39,7 @@ public class SQL {
 		return countries;
 	}
 
-	public static Vector<String> getStates() throws SQLException
+	public static Vector<String> getStates()
 	{
 		Vector<String> states = new Vector<String>();
 		
@@ -71,7 +71,7 @@ public class SQL {
 		return states;
 	}
 
-	public static Vector<String> getMajors() throws SQLException
+	public static Vector<String> getMajors()
 	{
 		Vector<String> majors = new Vector<String>();
 		
@@ -105,6 +105,8 @@ public class SQL {
 	
 	public static int getID(String table, String name)
 	{
+		int id = 0; 
+		
 		try
 		{	
 			Class.forName("org.postgresql.Driver");
@@ -114,9 +116,9 @@ public class SQL {
 			
 			Statement statement = connection.createStatement();
 			
-			ResultSet results = statement.executeQuery("SELECT id FROM " + table + " where name='" + name + "'");
-			
-			return results.getInt(0);
+			ResultSet results = statement.executeQuery("SELECT id FROM " + table + " WHERE name='" + name + "'");
+			results.next(); 
+			id = results.getInt(1);
 		}
 		catch(SQLException ex)
 		{
@@ -127,6 +129,62 @@ public class SQL {
 			//do something?	
 		}
 		
-		return 0; 
+		return id;
+	}
+
+	public static boolean incrementApplicantCount(String table, String name)
+	{
+		try
+		{	
+			Class.forName("org.postgresql.Driver");
+			
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/CSE135S?" + 
+									"user=postgres&password=derrick25");
+			
+			Statement statement = connection.createStatement();
+			
+			int records = statement.executeUpdate("UPDATE " + table + " SET applicantcount = applicantcount+1 WHERE name='" + name + "'");
+			
+			if(records == 1)
+				return true;
+		}
+		catch(SQLException ex)
+		{
+			//do something?	
+		}
+		catch (ClassNotFoundException e)
+		{
+			//do something?	
+		}
+		
+		return false; 
+	}
+	
+	public static boolean derementApplicantCount(String table, String name)
+	{
+		try
+		{	
+			Class.forName("org.postgresql.Driver");
+			
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/CSE135S?" + 
+									"user=postgres&password=derrick25");
+			
+			Statement statement = connection.createStatement();
+			
+			int records = statement.executeUpdate("UPDATE " + table + " SET applicantcount = applicantcount-1 WHERE name='" + name + "'");
+			
+			if(records == 1)
+				return true;
+		}
+		catch(SQLException ex)
+		{
+			//do something?	
+		}
+		catch (ClassNotFoundException e)
+		{
+			//do something?	
+		}
+		
+		return false;	
 	}
 }
