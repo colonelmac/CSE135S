@@ -1,0 +1,44 @@
+	/*
+	if( !SQL.checkData(targetTable, value) )
+	{
+		if(targetTable.equalsIgnoreCase("universities"))
+		{	
+			SQL.insertUniversity(value, (String)session.getAttribute("universityLocation"));
+		}
+		
+		if(targetTable.equalsIgnoreCase("majors"))
+		{
+			
+			
+		}
+	}
+	*/
+	
+	==============
+	
+			support sp = new support();
+		
+		String realPath = "/data/universities.txt";
+		
+		String path = config.getServletContext().getRealPath(realPath);
+		Vector universities = sp.getUniversities(path);
+	
+		boolean found = false;
+	
+		for(Object v : universities) {
+			
+			Vector tuple = (Vector)v;
+			String location = tuple.get(0).toString();
+			
+			if(location.equals(session.getAttribute("universityLocation").toString()))
+			{
+				universities = (Vector)tuple.get(1); //set university to a valid list of universities
+				found = true;
+				break;
+			}
+		}
+		
+		if(!found)
+		{
+			universities.clear();
+		}
