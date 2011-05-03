@@ -26,6 +26,7 @@
 	<thead>
 		<th>FirstName</th>
 		<th>LastName</th>
+		<!--  
 		<th>CountryCode</th>
 		<th>AreaCode</th>
 		<th>PhoneNumber</th>
@@ -36,6 +37,7 @@
 		<th>State</th>
 		<th>ZipCode</th>
 		<th>Status</th>
+		-->
 	</thead>
 	<tbody>
 	<%
@@ -50,7 +52,7 @@
 		
 		if(majorid != null)
 		{
-			results = statement.executeQuery("SELECT * FROM applicants WHERE ID " + 
+			results = statement.executeQuery("SELECT firstname, lastname FROM applicants WHERE ID " + 
 					"IN(SELECT applicantid FROM degrees WHERE majorid = " + majorid + ")");
 		}
 		else
@@ -63,6 +65,7 @@
 			out.println("<tr>");
 			out.println("<td>" + results.getString("firstname") + "</td>");
 			out.println("<td>" + results.getString("lastname") + "</td>");
+			/*
 			out.println("<td>" + results.getInt("countrycode") + "</td>");
 			out.println("<td>" + results.getInt("areacode") + "</td>");
 			out.println("<td>" + results.getInt("phonenumber") + "</td>");
@@ -74,6 +77,7 @@
 			out.println("<td>" + results.getInt("zipcode") + "</td>");
 			out.println("<td>" + results.getInt("statusid") + "</td>");
 			out.println("</tr>");
+			*/
 		}
 	%>
 	</tbody>
