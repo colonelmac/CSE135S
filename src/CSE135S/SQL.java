@@ -207,7 +207,7 @@ public class SQL {
 			
 			Statement statement = connection.createStatement();
 			
-			ResultSet results = statement.executeQuery("SELECT name FROM specialization");
+			ResultSet results = statement.executeQuery("SELECT name FROM specializations");
 			
 			while(results.next())
 			{

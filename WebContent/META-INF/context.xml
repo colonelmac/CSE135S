@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="" debug="5" override="true" reloadable="true">
+	<Resource	name="jdbc/ClassesDbPool"
+				description="Classes DB Pool"
+				driverClassName="org.postgresql.Driver"
+				type="javax.sql.DataSource"
+				auth="Container"
+				url="jdbc:postgresql://localhost/CSE135S"
+				username="postgres"
+				password="postgrespass"
+				defaultAutoCommit="false"
+				maxActive="10"
+				minIdle="0"
+				maxIdle="5"
+				maxWait="3000"
+				removeAbandoned="true"
+				removeAbandonedTimeout="60"
+				logAbandoned="true"
+				validationQuery="SELECT 1" />
+
+	<Realm	className="org.apache.catalina.realm.DataSourceRealm"
+			debug="99"
+			dataSourceName="jdbc/ClassesDbPool"
+			localDataSource="true"
+			userTable="users"
+			userNameCol="user_name"
+			userCredCol="password"
+			userRoleTable="user_roles"
+			roleNameCol="role"
+			digest="MD5"/>
+</Context>
