@@ -10,31 +10,6 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
-    <!-- Security Constraints -->
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>Restricted Area</web-resource-name>
-      <!-- Define the context-relative URL(s) to be protected -->
-      <url-pattern>/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>student</role-name>
-      <role-name>admin</role-name>
-    </auth-constraint>
-  </security-constraint>
-
-    <!-- Security Constraints -->
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>Unrestricted Area</web-resource-name>
-      <!-- Define the context-relative URL(s) to be protected -->
-      <url-pattern>/styles/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>*</role-name>
-    </auth-constraint>
-  </security-constraint>
-
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Applicant Resources</web-resource-name>
